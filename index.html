@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Chat Room</title>
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+	</head>
+	<body>
+
+       <div class="login">
+            <h2>Choose your chat room username please</h2>
+            <input type="text" onkeypress="this.value=spaces(this.value);" class="username" placeholder="username">
+            <input class="send" type="button" value="choose" onclick="user();" />
+            <div class="alert"> </div>  
+        </div>
+
+		<div class="displayer">
+			<div class="chat"></div>
+			<textarea class="chatting" placeholder="Type your chat here"></textarea>
+			<input class="send" type="button" value="Post" onclick="postChat();" />
+		</div>
+
+		<script src="http://127.0.0.1:1234/socket.io/socket.io.js"></script>
+
+		<script >
+		//remove spaces in the username
+		function spaces(username){
+			var validPattern = /[^a-zA-Z0-9]/;
+
+			//if the usrname contain special characters 
+			if (validPattern.test(username)) {
+				var warning=getNode(".alert");
+				var warningMsg = document.createElement('div');
+				warningMsg.setAttribute('class', 'alert');
+				warningMsg.textContent = "Only letters and numbers are allowed";
+				warning.replaceChild(warningMsg,warning.childNodes[0]);
+				return username.split(' ').join('');
+			}
+			//if the username contain no special character
+			else{
+				var warning=getNode(".alert");
+				var warningMsg = document.createElement('div');
+				warningMsg.setAttribute('class', 'alert');
+				warningMsg.textContent = " ";
+				warning.replaceChild(warningMsg,warning.childNodes[0]);
+				return username.split(' ').join('');	
+			}
+			
+
+		}
+
+		var getNode = function(s) {
+			return document.querySelector(s);
+		};
+
+		//try the login
+		try {
+				var socket = io.connect("http://127.0.0.1:1234");
+			} 
+		catch(e) {
+				console.log("Can't connect...");
+			}
+
+							// choose username
+		function user(){
+			//console.log("am in use function");
+			var validPattern = /[^a-zA-Z0-9]/;
+			var userName = getNode(".username");
+			if(userName.value.trim().length<1){
+				var warning=getNode(".alert");
+				var warningMsg = document.createElement('div');
+				warningMsg.setAttribute('class', 'alert');
+				warningMsg.textContent = "eee Empty username are not allowed";
+				warning.replaceChild(warningMsg,warning.childNodes[0]);
+			}
+			else if (validPattern.test(userName.value.trim())) {
+				console.log("special characters");
+				var warning=getNode(".alert");
+				var warningMsg = document.createElement('div');
+				warningMsg.setAttribute('class', 'alert');
+				warningMsg.textContent = "Only letters and numbers are allowed";
+				warning.replaceChild(warningMsg,warning.childNodes[0]);
+			}
+			else{
+				socket.emit("loginStart", userName.value.trim());
+			}
+
+		}
+
+
+		//listen after choosing a name
+		socket.on("logins", function(data) {
+			//console.log(socket)
+			//console.log(data);
+			if(data.accepted) {
+	       		getNode(".login").style.display = "none";
+	       		getNode(".displayer").style.display = "block";
+	    		console.log("Name = " + data.name);
+	   	  		runChat(data.name);
+			} else {
+				//location.reload();
+				console.log("data not accepteded");
+				//getNode(".login-status").textContent = data.message;
+				var warning=getNode(".alert");
+				var warningMsg = document.createElement('div');
+				warningMsg.setAttribute('class', 'alert');
+				warningMsg.textContent = data.message;
+				warning.replaceChild(warningMsg,warning.childNodes[0]);
+
+			}
+		});
+
+		//current time
+			var time = function() {
+				var date = new Date(Date.now());
+				var datestring = date.toLocaleDateString();
+				var timestring = date.toLocaleTimeString();
+				return datestring.concat(" ", timestring);
+			};
+
+		function runChat(name){
+			//needed nodes
+			messages = getNode(".chat");
+			textarea = getNode(".chatting");
+			sender=name;
+
+
+			if(socket !== undefined) {
+				
+
+				socket.on("connected", function(data) {
+					
+					
+					if(data !== sender){
+						var conMsg = document.createElement('div');
+						conMsg.setAttribute('class', 'chatJoined');
+						conMsg.textContent = data + " joined the Chat.";
+						var conTime = document.createElement('div');
+						conTime.setAttribute('class', 'connectTime');
+						conTime.textContent = time();
+						messages.appendChild(conTime);
+						messages.appendChild(conMsg);
+						messages.scrollTop = messages.scrollHeight;
+					}
+					
+				});
+
+				//disconnected
+				socket.on("left", function(data) {
+					var conMsg = document.createElement('div');
+					conMsg.setAttribute('class', 'chatLeft');
+					conMsg.textContent = data + " left.";
+					var conTime = document.createElement('div');
+					conTime.setAttribute('class', 'disconnectTime');
+					conTime.textContent = time();
+					messages.appendChild(conTime);
+					messages.appendChild(conMsg);
+					messages.scrollTop = messages.scrollHeight;
+				});
+
+				//output 
+				socket.on("output", function(data) {
+				//console.log(data);
+					if(data.length) {
+						// Loop through results if data is not empty
+						for(var x = data.length-1; x > -1; x = x - 1) {
+							var chatSender = document.createElement('div');
+							chatSender.setAttribute('class', 'chatSender');
+							chatSender.textContent = data[x].name;
+							var chatTime = document.createElement('div');
+							chatTime.setAttribute('class', 'chatTime');
+							chatTime.textContent = data[x].timestamp;
+							var chatMsg = document.createElement('div');
+							chatMsg.setAttribute('class', 'chatmessage');
+							chatMsg.textContent = data[x].message;
+
+							
+							messages.appendChild(chatTime);
+							messages.appendChild(chatSender);
+							messages.appendChild(chatMsg);
+							messages.scrollTop = messages.scrollHeight;
+							}
+						}
+				});
+
+				socket.emit("chartStart", name);
+
+			}
+		}
+
+
+			//post messages when the post button is clicked
+				function postChat(){
+					var postMsg=getNode(".chatting")
+					if(postMsg.value !==''){
+						console.log("the name is"+sender);
+						socket.emit("input", {
+								name: sender,
+								message: postMsg.value,
+								timestamp: time()
+							});
+						postMsg.value=''
+					}
+					else{
+						alert("Hey, the message can't be empty")
+					}
+					
+				}
+		
+
+		
+	
+
+		</script>
+
+	</body>
+</html>
