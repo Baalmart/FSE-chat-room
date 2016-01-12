@@ -1,0 +1,142 @@
+body{
+	background-color: #4fba7f;
+}
+textarea,
+input{
+	font-size: large;
+	font-weight: bold;
+	font-family: "Courier New", Courier, monospace;
+	
+	
+}
+
+.login{
+	margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    text-align: center;
+    max-width: 50%;
+    height: 300px;
+    background-color: #ededed;
+    padding-left:10%;
+	padding-right:10%;
+	padding-top:0px;
+	border:groove;
+	padding: 10px 20px;
+	border: 7px solid #65431c;
+	display: block;
+}
+
+.username {
+	width: 60%;
+	max-width: 60%;
+	margin-top: 5%;
+	padding-bottom: 10px;
+}
+
+.displayer {
+    margin-top: 10%;
+	max-width: 50%;
+	max-height: 500px;
+	display: none;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: bottom;
+	background-color: #ffffff;
+	padding: 10px 10px;
+	border: 7px solid #65431c;
+}
+
+.name {
+	width: 65%;
+	max-width: 65%;
+	margin-bottom: 10px;
+	float: left;
+	background-color: #ededed;
+}
+
+.chat{
+	
+	width: 90%;
+	max-height: 300px;
+	padding-left:5%;
+	padding-top:5%;
+	overflow-y: scroll;
+	border-bottom: 20px;
+}
+
+.chatmessage{
+	margin-bottom: 10px;
+	background-color: #ededed;
+}
+
+.chatSender{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #ededed;
+}
+
+.chatJoined,
+.chatLeft{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	background-color: #ededed;
+	color:#035cf7;
+}
+
+.chatLeft{
+	color: #f71339;
+}
+
+.connectTime,
+.disconnectTime {
+	float: right;
+	text-align: right;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	background-color: #ededed;
+	color:#035cf7;
+}
+
+.disconnectTime{
+	color: #f71339;
+}
+
+.chatTime {
+	float: right;
+	text-align: right;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	background-color: #ededed;
+}
+
+
+.chatting{
+	border-top:20px;
+	height: 100px;
+	max-height: 100px;
+	overflow-y: scroll;
+	width: 95%;
+	max-width: 95%;
+	padding-left:5%;
+	padding-right:1%;
+	margin-top: 20px;
+	background-color:#378de5;
+	border-color: #000000;
+}
+
+
+
+
+.send {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 25px;
+	color: #ffffff;
+	width:30%;
+	background-color:#378de5;
+	border-radius: 28px;
+	border: 7px solid #035cf7;
+	margin-left: 30%;
+}
