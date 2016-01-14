@@ -10,4 +10,12 @@ The client side is made in:
 The Server side is made by:
  - Node.js 
  - express.js
-And it use the SQLite as the database
+And it use the SQLite as the database.
+
+To install express use command:
+**sudo npm install express**
+
+To install all dependencies modules use command:
+**sudo npm install**
+
+Note that all testing were done on a Linux-Ubuntu based machine
