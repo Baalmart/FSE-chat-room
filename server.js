@@ -48,7 +48,6 @@ client.on("connection", function(socket) {
 					socket.emit("logins", {accepted:true, name:data});
 					//insert the new name in database
 					db.serialize(function() {
-							console.log("insertgin");
 							db.run("INSERT INTO users VALUES(?)", data);
 						});
 				}
