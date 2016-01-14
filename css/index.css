@@ -66,8 +66,11 @@ input{
 }
 
 .chatmessage{
-	margin-bottom: 10px;
+	margin-bottom: 1px;
 	background-color: #ededed;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	padding-left: 4px;
 }
 
 .chatSender{
@@ -75,6 +78,8 @@ input{
 	font-size: 20px;
 	font-weight: bold;
 	background-color: #ededed;
+	padding-top: 4px;
+	padding-left: 4px;
 }
 
 .chatJoined,
@@ -110,6 +115,8 @@ input{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	background-color: #ededed;
+	padding-top: 4px;
+	padding-right: 4px;
 }
 
 
@@ -123,7 +130,7 @@ input{
 	padding-left:5%;
 	padding-right:1%;
 	margin-top: 20px;
-	background-color:#378de5;
+	background-color:#66ffff;
 	border-color: #000000;
 }
 
