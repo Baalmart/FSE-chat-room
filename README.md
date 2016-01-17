@@ -7,6 +7,7 @@ The client side is made in:
  - HTML
  - CSS
  - JavaScript
+ 
 The Server side is made by:
  - Node.js 
  - express.js
